@@ -7,9 +7,6 @@ var {
   Text,
 } = ReactNative
 
-var Image = require('./helper/Image')
-
-
 var LINE_BREAK = '\n'
 var PARAGRAPH_BREAK = '\n\n'
 var BULLET = '\u2022 '
@@ -26,32 +23,18 @@ function htmlToElement(rawHtml, opts, done) {
 
 
       if (node.type == 'text') {
+		let prevStyle = {};
+		  if (parent && parent.prev && parent.prev.parent) {
+		    prevStyle = opts.styles[parent.prev.parent.name];
+		  }
         return (
-          <Text key={index} style={parent ? opts.styles[parent.name] : null}>
+          <Text key={index} style={parent ? [prevStyle, opts.styles[parent.name]] : null}>
             {entities.decodeHTML(node.data)}
           </Text>
         )
       }
 
       if (node.type == 'tag') {
-        if (node.name == 'img') {
-          var img_w = +node.attribs['width'] || +node.attribs['data-width'] || 0
-          var img_h = +node.attribs['height'] || +node.attribs['data-height'] || 0
-
-          var img_style = {
-            width: img_w,
-            height: img_h,
-          }
-          var source = {
-            uri: node.attribs.src,
-            width: img_w,
-            height: img_h,
-          }
-          return (
-            <Image key={index} source={source} style={img_style} />
-          )
-        }
-
         var linkPressHandler = null
         if (node.name == 'a' && node.attribs && node.attribs.href) {
           linkPressHandler = () => opts.linkHandler(entities.decodeHTML(node.attribs.href))
