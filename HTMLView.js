@@ -70,7 +70,7 @@ class HtmlView extends Component {
 
   render() {
     if (this.state.element) {
-      return <Text children={this.state.element} />
+      return <Text style={this.props.style} children={this.state.element} />
     }
     return <Text />
   }
@@ -82,6 +82,7 @@ HtmlView.propTypes = {
   onLinkPress: PropTypes.func,
   onError: PropTypes.func,
   renderNode: PropTypes.func,
+  style: PropTypes.any,
 }
 
 HtmlView.defaultProps = {
