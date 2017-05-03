@@ -4,6 +4,7 @@ import {
   Linking,
   StyleSheet,
   Text,
+  View,
 } from 'react-native'
 
 const boldStyle = {fontWeight: '500'}
@@ -70,9 +71,9 @@ class HtmlView extends Component {
 
   render() {
     if (this.state.element) {
-      return <Text style={this.props.style} children={this.state.element} />
+      return <View style={this.props.style} children={this.state.element} />
     }
-    return <Text />
+    return <View />
   }
 }
 
